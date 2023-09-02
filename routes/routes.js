@@ -10,6 +10,19 @@ router.route("/")
 router.route("/login")
     .get(getloginpage)
     .post(checklogin);
+    
+router.route("/login/agentprofile/:id")
+    .get(getagentprofilepage);
+
+router.route("/login/agentprofile/:id/agentinterface")
+    .get(getagentinterfacepage)
+    .post(getcustomerdata);
+
+router.route("/login/agentprofile/:id/fallupcustomers")
+    .get(getfalluppage);
+    
+router.route("/login/agentprofile/:id/agentinterface/delete")
+    .get(deletecustomerdata);
 
 router.route("/customerlogin")
     .get(getcustomerloginpage)
@@ -24,21 +37,8 @@ router.route("/customerlogin/customerprofile/:id/agentlist")
 router.route("/schemes")
     .get(getschemespage);
 
-router.route("/login/agentprofile/:id")
-    .get(getagentprofilepage);
-
 router.route("/precalculator")
     .get(getcalculator);
-
-router.route("/login/agentprofile/:id/agentinterface")
-    .get(getagentinterfacepage)
-    .post(getcustomerdata);
-
-router.route("/login/agentprofile/:id/fallupcustomers")
-    .get(getfalluppage);
-
-router.route("/login/agentprofile/:id/agentinterface/delete")
-    .get(deletecustomerdata);
 
 router.route("/customersignup")
     .get(getcustomersignuppage)

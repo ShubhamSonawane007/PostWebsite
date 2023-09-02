@@ -1,12 +1,12 @@
 // all the schemas(models)
 const Register = require("../src/models/registers"); 
-const Customer1 = require("../src/models/customerlist").Post; 
-const Customer2 = require("../src/models/customerlist"); 
+// const Customer1 = require("../src/models/customerlist").Post; 
+const Customer = require("../src/models/customerlist"); 
 const Agent = require("../src/models/agent");
 const Fallup = require("../src/models/fall_up")
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
-const { deleteData } = require("../src/models/customerlist");
+// const { deleteData } = require("../src/models/customerlist");
 
 
 const gethomepage = (req,res)=>{
@@ -121,7 +121,7 @@ const getagentprofilepage = (req,res)=>{
 
 const getagentinterfacepage = (req,res)=>{
     // console.log(req.params.id)
-    Customer1.find({agent_id:req.params.id})
+    Customer.find({agent_id:req.params.id})
     .then((x)=>{
         res.render("agentinterface", {x})
         // console.log(path.join(__dirname), "./models/registers.js");
@@ -134,7 +134,7 @@ const getagentinterfacepage = (req,res)=>{
 const getcustomerdata = async(req,res,next) =>{
     try{    
             const agentid = req.params.id;
-            const customers = new Customer1({
+            const customers = new Customer({
                 agent_id:req.params.id,
                 User: req.body.name,
                 Scheme_name: req.body.schemes,
@@ -266,15 +266,22 @@ const getcalculator = (req,res)=>{
     res.render("calculator");
 }
 
-const deletecustomerdata = (req,res)=>{
-    var deleteId = req.params.id;
+const deletecustomerdata = async (req,res,next)=>{
+    var deleteId = req.params.id
+    var deletedata = await Customer.findOne({_id:deleteId})
+    var agent = deletedata.agent_id
+    console.log(deletedata);
     console.log(deleteId);
-    Customer2.deleteData(deleteId,(data)=>{
-        // res.redirect(`/login/agentprofile/${deleteId}/agentinterface`)
-        // res.send("Deleted successfully")
-        // console.log("record waas deleted");
-        return console.log("deleted");
-    });
+    Customer.findByIdAndDelete({_id:deleteId},(err,docs)=>{
+        if(err){
+            console.log("Something went wrong");
+            next(err);
+        }else{
+            console.log("Deleted Successfully");
+            res.redirect(`/login/agentprofile/${agent}/agentinterface`)
+        }
+    })
+
 }
 
 // const storefallupdata = async(req,res)=>{
