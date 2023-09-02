@@ -1,6 +1,5 @@
 // all the schemas(models)
 const Register = require("../src/models/registers"); 
-// const Customer1 = require("../src/models/customerlist").Post; 
 const Customer = require("../src/models/customerlist"); 
 const Agent = require("../src/models/agent");
 const Fallup = require("../src/models/fall_up")
